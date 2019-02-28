@@ -14,9 +14,7 @@ public class TipsLoadingManager implements LoadingManager {
     private final Random mRandom;
 
     private final int[] mTips = {
-            R.string.tip_show_main_screen,
-            R.string.tip_solve_problem,
-            R.string.tip_disable_updates
+            R.string.tip_show_main_screen
     };
 
     public TipsLoadingManager(Activity context) {
