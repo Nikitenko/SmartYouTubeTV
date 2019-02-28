@@ -44,10 +44,6 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("../android-upd2.keystore")
-            storePassword project.KEYSTORE_PASSWORD
-            keyAlias 'private'
-            keyPassword project.KEYSTORE_PASSWORD
         }
     }
 
@@ -69,7 +65,7 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -118,7 +114,7 @@ android {
     }
 
     lintOptions {
-        abortOnError true
+        abortOnError false
         lintConfig rootProject.file('lint.xml')
     }
 }
