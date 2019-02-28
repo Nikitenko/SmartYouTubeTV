@@ -143,6 +143,10 @@ var YouTubeUtils = {
         return Utils.hasClass(Utils.$(YouTubeSelectors.PLAYER_EVENTS_RECEIVER), YouTubeClasses.NO_MODEL);
     },
 
+    isPlayerControlsClosed: function() {
+        return Utils.hasClass(Utils.$(YouTubeSelectors.PLAYER_EVENTS_RECEIVER), YouTubeClasses.WATCH_IDLE_CLASS);
+    },
+
     isPlayerOpened: function() {
         var isOpened =
             location.hash.indexOf(this.VIDEO_SIGN) != -1    ||
@@ -152,8 +156,8 @@ var YouTubeUtils = {
     },
 
     isSearchOpened: function() {
-        var isOpened = location.hash.indexOf(this.SEARCH_SIGN) != -1;
-        Log.d(this.TAG, "Search is opened: " + isOpened + ", hash: " + location.hash);
+        var isOpened = this.isPageOpened(YouTubeSelectors.SEARCH_PAGE);
+        Log.d(this.TAG, "Search is opened?: " + isOpened);
         return isOpened;
     },
 
@@ -161,6 +165,10 @@ var YouTubeUtils = {
         var isOpened = location.hash.indexOf(this.CHANNEL_SIGN) != -1;
         Log.d(this.TAG, "Channel is opened: " + isOpened + ", hash: " + location.hash);
         return isOpened;
+    },
+
+    isOverlayOpened: function() {
+        return !Utils.hasClass(Utils.$(YouTubeSelectors.OVERLAY_PANEL_CONTAINER), YouTubeClasses.HIDDEN);
     },
 
     isDisabled: function(elem) {
@@ -186,5 +194,9 @@ var YouTubeUtils = {
 
     getPlayer: function() {
         return Utils.$('video');
+    },
+
+    isPageOpened: function(elementOrSelector) {
+        return !Utils.hasClass(Utils.$(elementOrSelector), YouTubeClasses.HIDDEN);
     }
 };

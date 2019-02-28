@@ -8,11 +8,15 @@ function BackButton(selector) {
     this.selector = selector;
     this.retryTimes = 10;
     this.checkDelayMS = 1000;
+    this.stateless = true;
 
     this.retryOnFail = function() {
         if (this.retryTimes <= 0 || YouTubeUtils.isPlayerClosed()) {
             return;
         }
+
+        // fix input lost after opening user channel page
+        //Utils.$(YouTubeSelectors.PLAYER_EVENTS_RECEIVER).focus();
 
         this.retryTimes--;
 

@@ -35,6 +35,7 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -357,6 +358,27 @@ public final class Helpers {
         audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, !enable);
     }
 
+    /**
+     * Find all packages starting for specified name
+     * @param context ctx
+     * @param pkgPrefix starts with
+     * @return packages or empty list if not found
+     */
+    public static List<String> findPackagesByPrefix(Context context, String pkgPrefix) {
+        final PackageManager pm = context.getPackageManager();
+        //get a list of installed apps.
+        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+        List<String> pkgNames = new ArrayList<>();
+
+        for (ApplicationInfo info : packages) {
+            if (info.packageName != null && info.packageName.startsWith(pkgPrefix)) {
+                pkgNames.add(info.packageName);
+            }
+        }
+
+        return pkgNames;
+    }
+
     public static boolean isPackageExists(Context context, String pkgName) {
         final PackageManager pm = context.getPackageManager();
         //get a list of installed apps.
@@ -374,6 +396,18 @@ public final class Helpers {
     public static void removePackage(Context context, String pkgName) {
         Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
         intent.setData(Uri.parse("package:" + pkgName));
+        context.startActivity(intent);
+    }
+
+    // NOTE: as of Oreo you must also add the REQUEST_INSTALL_PACKAGES permission to your manifest. Otherwise it just silently fails
+    public static void installPackage(Context context, String packagePath) {
+        if (packagePath == null) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri file = FileHelpers.getFileUri(context, packagePath);
+        intent.setDataAndType(file, "application/vnd.android.package-archive");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION); // without this flag android returned a intent error!
         context.startActivity(intent);
     }
 }

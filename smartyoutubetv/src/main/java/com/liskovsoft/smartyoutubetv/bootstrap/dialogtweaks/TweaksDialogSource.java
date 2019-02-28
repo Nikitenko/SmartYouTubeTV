@@ -4,10 +4,12 @@ import android.content.Context;
 import com.liskovsoft.smartyoutubetv.R;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.BetaUpdateCheckDialogItem;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.EndCardsDialogItem;
+import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.FixAspectDialogItem;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.GlobalAfrFixDialogItem;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.LockLastLauncherDialogItem;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.LogToFileDialogItem;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.OkButtonDialogItem;
+import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.UseExternalPlayerDialogItem;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.OpenMusicDialogItem;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.OpenSubscriptionsDialogItem;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.items.OpenWatchLaterDialogItem;
@@ -39,6 +41,8 @@ public class TweaksDialogSource implements MultiDialogSource {
         mItems.add(new OpenSubscriptionsDialogItem(mContext));
         mItems.add(new OpenWatchLaterDialogItem(mContext));
         mItems.add(new GlobalAfrFixDialogItem(mContext));
+        mItems.add(new UseExternalPlayerDialogItem(mContext));
+        mItems.add(new FixAspectDialogItem(mContext));
     }
 
     @Override

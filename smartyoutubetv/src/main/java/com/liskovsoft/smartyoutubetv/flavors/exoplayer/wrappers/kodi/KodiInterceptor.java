@@ -1,4 +1,4 @@
-package com.liskovsoft.smartyoutubetv.flavors.exoplayer.kodi;
+package com.liskovsoft.smartyoutubetv.flavors.exoplayer.wrappers.kodi;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import com.liskovsoft.smartyoutubetv.flavors.exoplayer.commands.GenericCommand;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.commands.SyncButtonsCommand;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.interceptors.DelayedCommandCallInterceptor;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.ExoPlayerFragment;
+import com.liskovsoft.smartyoutubetv.flavors.exoplayer.wrappers.server.MyContentServer;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 public class KodiInterceptor extends MPDExtractInterceptor {
     private final Context mContext;
     private final DelayedCommandCallInterceptor mInterceptor;
-    private MyHttpd mHttpd;
+    private MyContentServer mHttpd;
     private static String STRM_URL = "http://localhost:8080/video.strm";
 
     public KodiInterceptor(Context context, DelayedCommandCallInterceptor interceptor) {
@@ -25,19 +26,19 @@ public class KodiInterceptor extends MPDExtractInterceptor {
     }
 
     private void initHttpd() {
-        mHttpd = new MyHttpd();
+        mHttpd = new MyContentServer();
     }
 
     @Override
     protected void onDashMPDFound(InputStream mpdContent) {
-        mHttpd.setDashStream(mpdContent);
+        mHttpd.setDashContent(mpdContent);
         closeWebPlayerWindow();
         openKodi();
     }
 
     @Override
     protected void onLiveUrlFound(Uri hlsUrl) {
-        mHttpd.setLiveStream(hlsUrl);
+        mHttpd.setLiveContent(hlsUrl);
         closeWebPlayerWindow();
         openKodi();
     }

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -59,8 +60,11 @@ import com.liskovsoft.exoplayeractivity.R;
 import com.liskovsoft.smartyoutubetv.common.helpers.FileHelpers;
 import com.liskovsoft.smartyoutubetv.common.helpers.MessageHelpers;
 import com.liskovsoft.smartyoutubetv.common.mylogger.Log;
+import com.liskovsoft.smartyoutubetv.common.prefs.SmartPreferences;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.helpers.ExtendedDataHolder;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.helpers.PlayerUtil;
+import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.support.subalignment.MyDefaultRenderersFactory;
+import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.support.PlayerInterface;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.widgets.TextToggleButton;
 
 import java.io.IOException;
@@ -70,7 +74,7 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.UUID;
 
-public abstract class PlayerCoreFragment extends Fragment implements OnClickListener, Player.EventListener, PlayerControlView.VisibilityListener {
+public abstract class PlayerCoreFragment extends Fragment implements OnClickListener, Player.EventListener, PlayerControlView.VisibilityListener, PlayerInterface {
     private static final String TAG = PlayerCoreFragment.class.getName();
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
     private static final CookieManager DEFAULT_COOKIE_MANAGER;
@@ -128,8 +132,16 @@ public abstract class PlayerCoreFragment extends Fragment implements OnClickList
     private Intent mIntent;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.player_activity, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        SmartPreferences prefs = SmartPreferences.instance(getActivity());
+
+        int layout = R.layout.player_activity;
+
+        if (prefs.getFixAspectRatio()) {
+            layout = R.layout.player_activity_texture_view;
+        }
+
+        return inflater.inflate(layout, container, false);
     }
 
     @Override
@@ -300,7 +312,9 @@ public abstract class PlayerCoreFragment extends Fragment implements OnClickList
     }
 
     private RenderersFactory getRenderersFactory() {
-        return new DefaultRenderersFactory(getActivity(), DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
+        DefaultRenderersFactory factory = new MyDefaultRenderersFactory(getActivity());
+        factory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
+        return factory;
     }
 
     /**
@@ -676,8 +690,14 @@ public abstract class PlayerCoreFragment extends Fragment implements OnClickList
         updateButtonVisibilities();
     }
 
+    @Override
     public SimpleExoPlayer getPlayer() {
         Log.i(TAG, "getPlayer");
         return mPlayer;
+    }
+
+    @Override
+    public PlayerView getExoPlayerView() {
+        return mSimpleExoPlayerView;
     }
 }

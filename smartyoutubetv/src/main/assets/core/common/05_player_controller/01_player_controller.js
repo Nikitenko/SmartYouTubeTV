@@ -11,15 +11,40 @@ var PlayerController = {
     checkTimeoutMS: 500,
     numTries: 0,
     advanceTimeSec: 20,
+    defaultNumTries: 10,
 
     jumpToEnd: function(onFail) {
-        this.numTries = 10;
+        this.numTries = this.defaultNumTries;
         this.setPosition(this.POSITION_END, onFail);
     },
 
     advance: function(onFail) {
-        this.numTries = 10;
+        this.numTries = this.defaultNumTries;
         this.setPosition(this.POSITION_ONE_SEC, onFail);
+    },
+
+    setPosition2: function(position, onFail) {
+        var $this = this;
+
+        var player = YouTubeUtils.getPlayer();
+
+        switch (position) {
+            case this.POSITION_END:
+                Log.d(this.TAG, "Forcing end of the video");
+
+                Utils.overridePropOnce(player, 'duration', 999999);
+                Utils.overridePropOnce(player, 'currentTime', 999999);
+
+                break;
+            case this.POSITION_ONE_SEC:
+                Log.d(this.TAG, "Advance position by one second");
+                player.currentTime = this.advanceTimeSec;
+                break;
+        }
+    },
+
+    getPlayerSrc: function() {
+        return location.hash;
     },
 
     setPosition: function(position, onFail) {
@@ -27,7 +52,8 @@ var PlayerController = {
 
         var player = YouTubeUtils.getPlayer();
 
-        var url = player.src;
+        var url = this.getPlayerSrc();
+
         Log.d(this.TAG, "Updating position of the video, url: " + url);
 
         if (player) {
@@ -35,7 +61,7 @@ var PlayerController = {
                 switch (position) {
                     case this.POSITION_END:
                         Log.d(this.TAG, "Forcing end of the video");
-                        // HACK: use floor because currentTime sometimes can't be set
+                        // use floor because currentTime sometimes can't be set
                         player.currentTime = Math.floor(player.duration);
                         break;
                     case this.POSITION_ONE_SEC:
@@ -69,7 +95,7 @@ var PlayerController = {
             var player = YouTubeUtils.getPlayer();
 
             if (player) {
-                Log.d($this.TAG, "Checking player src, position and duration: " + player.src + " " + player.currentTime + " " + player.duration);
+                Log.d($this.TAG, "Checking player src, position and duration: " + player.src + ' ' + player.currentTime + ' ' + player.duration + ' ' + checkUrl);
 
                 var hasNaN = isNaN(player.currentTime) || isNaN(player.duration);
 
@@ -85,7 +111,7 @@ var PlayerController = {
                 }
 
                 var isStalled = hasNaN || needSeek;
-                var onSameVideo = player.src == checkUrl;
+                var onSameVideo = $this.getPlayerSrc() == checkUrl;
 
                 if (isStalled && onSameVideo) {
                     Log.d($this.TAG, "Retrying to unfreeze the video...");

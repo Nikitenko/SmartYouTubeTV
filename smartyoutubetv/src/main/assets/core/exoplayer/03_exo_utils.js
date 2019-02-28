@@ -15,6 +15,7 @@ var ExoUtils = {
     TAG: 'ExoUtils',
     ACTION_CLOSE_SUGGESTIONS: "action_close_suggestions",
     ACTION_PLAYBACK_STARTED: "action_playback_started",
+    ACTION_DISABLE_KEY_EVENTS: "action_disable_key_events",
 
     // events order:
     // emptied
@@ -50,7 +51,7 @@ var ExoUtils = {
 
         // once player is created it will be reused by other videos
         // 'loadeddata' is first event when video can be muted
-        player.addEventListener(DefaultEvents.PLAYER_DATA_LOADED, onLoad, false);
+        //player.addEventListener(DefaultEvents.PLAYER_DATA_LOADED, onLoad, false);
         player.addEventListener(DefaultEvents.PLAYER_PLAYING, onPlaying, false);
 
         Utils.overrideProp(player, 'volume', 0);

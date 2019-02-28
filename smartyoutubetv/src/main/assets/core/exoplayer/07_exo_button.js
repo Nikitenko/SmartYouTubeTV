@@ -3,7 +3,7 @@ console.log("Scripts::Running core script exo_button.js");
 function ExoButton(selector) {
     this.TAG = 'ExoButton';
     this.selector = selector;
-    this.decorator = new ExoButtonDecorator(this);
+    this.decorator = ExoButtonDecorator.instance();
 
     /**
      * Return first element that exists (array of selectors case)
@@ -71,7 +71,7 @@ function ExoButton(selector) {
         this.isChecked = doChecked;
     };
 
-    this.decorator.apply();
+    this.decorator.apply(this);
 }
 
 ExoButton.fromSelector = function(selector) {
@@ -85,7 +85,9 @@ ExoButton.fromSelector = function(selector) {
             case PlayerActivityMapping.BUTTON_SUGGESTIONS:
                 return new SuggestionsFakeButton(selector);
             case PlayerActivityMapping.BUTTON_FAVORITES:
-                return new FavoritesButton(selector);
+                return new FavoriteButton(selector);
+            case PlayerActivityMapping.BUTTON_USER_PAGE:
+                return new ChannelButton(selector);
             case PlayerActivityMapping.BUTTON_BACK:
                 return new BackButton(selector);
             case PlayerActivityMapping.BUTTON_PREV:

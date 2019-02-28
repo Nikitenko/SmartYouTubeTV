@@ -13,7 +13,7 @@ import com.google.android.exoplayer2.trackselection.MappingTrackSelector.MappedT
 import com.liskovsoft.exoplayeractivity.R;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.ExoPlayerFragment;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.support.ExoPreferences;
-import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.support.PlayerStateManagerBase.MyFormat;
+import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.support.trackstate.PlayerStateManagerBase.MyFormat;
 
 public final class PlayerUtil extends TrackSelectorUtil {
     private static final int VIDEO_RENDERER_INDEX = 0;
@@ -40,10 +40,12 @@ public final class PlayerUtil extends TrackSelectorUtil {
         int height = split.length >= 1 ? Integer.parseInt(split[0]) : 0;
         int fps = split.length >= 2 ? Integer.parseInt(split[1]) : 0;
         String codec = split.length >= 3 ? split[2] : null;
+        String hdr = split.length >= 4 ? split[3] : null;
 
         return format.height <= (height + HEIGHT_SHIFT) &&
                format.frameRate <= (fps + FPS_SHIFT) &&
-               (format.codecs == null || codec == null || format.codecs.contains(codec));
+               (format.codecs == null || codec == null || format.codecs.contains(codec)) &&
+               (hdr != null || !TrackSelectorUtil.isHdrCodec(format.codecs));
 
     }
 
