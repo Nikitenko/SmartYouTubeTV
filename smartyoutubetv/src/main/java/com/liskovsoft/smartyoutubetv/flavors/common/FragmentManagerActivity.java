@@ -225,7 +225,6 @@ public abstract class FragmentManagerActivity extends AppCompatActivity implemen
     }
 
     private void initPermissions() {
-        PermissionManager.verifyStoragePermissions(this);
     }
 
     @Override

@@ -38,11 +38,6 @@ public class PermissionManager {
      */
     private static void requestStoragePermissions(Activity activity) {
         // We don't have permission so prompt the user
-        ActivityCompat.requestPermissions(
-                activity,
-                PERMISSIONS_STORAGE,
-                REQUEST_EXTERNAL_STORAGE
-        );
     }
 
     /**
