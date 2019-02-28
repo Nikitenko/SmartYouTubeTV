@@ -58,6 +58,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.liskovsoft.exoplayeractivity.R;
 import com.liskovsoft.smartyoutubetv.common.helpers.FileHelpers;
 import com.liskovsoft.smartyoutubetv.common.helpers.MessageHelpers;
+import com.liskovsoft.smartyoutubetv.common.mylogger.Log;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.helpers.ExtendedDataHolder;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.helpers.PlayerUtil;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.widgets.TextToggleButton;
@@ -177,6 +178,7 @@ public abstract class PlayerCoreFragment extends Fragment implements OnClickList
     public void initializePlayer() {
         Intent intent = getIntent();
         boolean needNewPlayer = mPlayer == null;
+        Log.i(TAG, "initializePlayer");
 
         if (needNewPlayer) {
             initializeTrackSelector();
@@ -309,8 +311,8 @@ public abstract class PlayerCoreFragment extends Fragment implements OnClickList
         return new DefaultLoadControl.Builder()
                 .setAllocator(new DefaultAllocator(true, C.DEFAULT_BUFFER_SEGMENT_SIZE))
                 .setBufferDurationsMs(
-        DefaultLoadControl.DEFAULT_MIN_BUFFER_MS * 4,
-        DefaultLoadControl.DEFAULT_MAX_BUFFER_MS * 2,
+        DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
+        DefaultLoadControl.DEFAULT_MIN_BUFFER_MS * 2,
                     DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
                     DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS
                 )
@@ -675,6 +677,7 @@ public abstract class PlayerCoreFragment extends Fragment implements OnClickList
     }
 
     public SimpleExoPlayer getPlayer() {
+        Log.i(TAG, "getPlayer");
         return mPlayer;
     }
 }

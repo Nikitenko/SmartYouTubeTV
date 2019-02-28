@@ -335,6 +335,7 @@ public class ExoPlayerBaseFragment extends PlayerCoreFragment {
      * Used when exoplayer's fragment no longer visible (e.g. paused/resumed/stopped/started)
      */
     protected void releasePlayer() {
+        Log.i(TAG, "releasePlayer");
         if (mAutoFrameRateManager != null) {
             mAutoFrameRateManager.restoreOriginalState();
         }
@@ -342,6 +343,7 @@ public class ExoPlayerBaseFragment extends PlayerCoreFragment {
         if (mPlayer != null) {
             mShouldAutoPlay = mPlayer.getPlayWhenReady(); // save paused state
             updateResumePosition(); // save position
+            mPlayer.stop();
             mPlayer.release();
         }
 
@@ -377,7 +379,7 @@ public class ExoPlayerBaseFragment extends PlayerCoreFragment {
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        if (mTrackSelector.getCurrentMappedTrackInfo() != null && !mIsDurationSet) {
+        if (mTrackSelector!= null && mTrackSelector.getCurrentMappedTrackInfo() != null && !mIsDurationSet) {
             mIsDurationSet = true; // run once per video
 
             if (mStateManager != null) {

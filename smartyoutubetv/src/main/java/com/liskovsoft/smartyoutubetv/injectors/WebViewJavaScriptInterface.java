@@ -166,6 +166,7 @@ public class WebViewJavaScriptInterface {
     @JavascriptInterface
     @org.xwalk.core.JavascriptInterface
     public boolean isExo() {
+        Log.i(TAG, "isExo() " + (mContext instanceof TwoFragmentsManagerActivity));
         return mContext instanceof TwoFragmentsManagerActivity;
     }
 
