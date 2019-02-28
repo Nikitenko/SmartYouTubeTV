@@ -128,7 +128,5 @@ public abstract class BootstrapActivityBase extends AppCompatActivity {
     }
 
     private void uninstallOldVersions() {
-        OldPackageRemover remover = new OldPackageRemover(this);
-        remover.remove();
     }
 }
