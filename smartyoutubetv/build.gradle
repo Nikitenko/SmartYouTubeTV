@@ -36,8 +36,8 @@ android {
         minSdkVersion project.properties.minSdkVersion
         targetSdkVersion project.properties.targetSdkVersion
         applicationId "com.liskovsoft.videomanager"
-        versionCode 557
-        versionName "6.16.77"
+        versionCode 560
+        versionName "6.16.80"
         multiDexEnabled = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -134,6 +134,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Common routines
+    implementation project(path: ':ext-sharedutils')
+
     implementation project(path: ':common')
 
     implementation project(path: ':browser')

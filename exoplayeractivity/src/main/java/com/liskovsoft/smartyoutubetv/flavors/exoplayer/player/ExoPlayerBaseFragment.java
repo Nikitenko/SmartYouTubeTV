@@ -2,25 +2,22 @@ package com.liskovsoft.smartyoutubetv.flavors.exoplayer.player;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.util.Util;
 import com.liskovsoft.exoplayeractivity.R;
-import com.liskovsoft.smartyoutubetv.common.mylogger.Log;
-import com.liskovsoft.smartyoutubetv.dialogs.CombinedChoiceSelectorDialog;
-import com.liskovsoft.smartyoutubetv.dialogs.SingleChoiceSelectorDialog;
+import com.liskovsoft.sharedutils.mylogger.Log;
+import com.liskovsoft.sharedutils.dialogs.CombinedChoiceSelectorDialog;
+import com.liskovsoft.sharedutils.dialogs.SingleChoiceSelectorDialog;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.dialogs.restrictcodec.RestrictFormatDialogSource;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.dialogs.speed.SpeedDialogSource;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.dialogs.zoom.VideoZoomDialogSource;
@@ -225,9 +222,9 @@ public abstract class ExoPlayerBaseFragment extends PlayerCoreFragment {
         super.onClick(view);
 
         if (view.getId() == R.id.btn_restrict_codec) {
-            SingleChoiceSelectorDialog.create(getActivity(), new RestrictFormatDialogSource(getActivity()));
+            SingleChoiceSelectorDialog.create(getActivity(), new RestrictFormatDialogSource(getActivity()), R.style.AppDialog);
         } else if (view.getId() == R.id.btn_video_zoom) {
-            SingleChoiceSelectorDialog.create(getActivity(), new VideoZoomDialogSource(getActivity(), mVideoZoomManager));
+            SingleChoiceSelectorDialog.create(getActivity(), new VideoZoomDialogSource(getActivity(), mVideoZoomManager), R.style.AppDialog);
         }
     }
 
@@ -480,7 +477,7 @@ public abstract class ExoPlayerBaseFragment extends PlayerCoreFragment {
     }
 
     public void onSpeedClicked() {
-        CombinedChoiceSelectorDialog.create(getActivity(), new SpeedDialogSource((ExoPlayerFragment) this));
+        CombinedChoiceSelectorDialog.create(getActivity(), new SpeedDialogSource((ExoPlayerFragment) this), R.style.AppDialog);
     }
 
     @Override

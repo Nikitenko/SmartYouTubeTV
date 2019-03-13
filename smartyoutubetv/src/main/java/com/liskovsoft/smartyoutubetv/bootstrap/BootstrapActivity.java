@@ -10,9 +10,9 @@ import com.liskovsoft.smartyoutubetv.BuildConfig;
 import com.liskovsoft.smartyoutubetv.R;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialoglanguage.LanguageDialogSource;
 import com.liskovsoft.smartyoutubetv.bootstrap.dialogtweaks.TweaksDialogSource;
-import com.liskovsoft.smartyoutubetv.common.prefs.SmartPreferences;
-import com.liskovsoft.smartyoutubetv.dialogs.MultiChoiceSelectorDialog;
-import com.liskovsoft.smartyoutubetv.dialogs.SingleChoiceSelectorDialog;
+import com.liskovsoft.smartyoutubetv.prefs.SmartPreferences;
+import com.liskovsoft.sharedutils.dialogs.MultiChoiceSelectorDialog;
+import com.liskovsoft.sharedutils.dialogs.SingleChoiceSelectorDialog;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.SmartYouTubeTV4K;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.SmartYouTubeTV4KAlt;
 import com.liskovsoft.smartyoutubetv.flavors.webview.SmartYouTubeTV1080Activity;
@@ -65,10 +65,10 @@ public class BootstrapActivity extends BootstrapActivityBase {
     public void onClick(View button) {
         switch (button.getId()) {
             case R.id.btn_select_lang:
-                SingleChoiceSelectorDialog.create(this, new LanguageDialogSource(this));
+                SingleChoiceSelectorDialog.create(this, new LanguageDialogSource(this), R.style.AppDialog);
                 break;
             case R.id.btn_tweaks:
-                MultiChoiceSelectorDialog.create(this, new TweaksDialogSource(this));
+                MultiChoiceSelectorDialog.create(this, new TweaksDialogSource(this), R.style.AppDialog);
                 break;
         }
     }

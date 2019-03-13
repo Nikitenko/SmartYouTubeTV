@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.util.Util;
 import com.liskovsoft.exoplayeractivity.R;
-import com.liskovsoft.smartyoutubetv.common.helpers.Helpers;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.ExoPlayerBaseFragment;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.ExoPlayerFragment;
 import com.liskovsoft.smartyoutubetv.flavors.exoplayer.player.helpers.PlayerUtil;
@@ -22,7 +21,6 @@ import java.util.Map;
 
 public class PlayerButtonsManager {
     private static final String TAG = PlayerButtonsManager.class.getSimpleName();
-    private static final int LISTENER_ADDED = 0;
     private final ExoPlayerBaseFragment mPlayerFragment;
     private final Map<Integer, Boolean> mButtonStates;
     private final Map<Integer, String> mIdTagMapping;
@@ -35,21 +33,34 @@ public class PlayerButtonsManager {
     public PlayerButtonsManager(ExoPlayerBaseFragment playerFragment) {
         mPlayerFragment = playerFragment;
         mRootView = mPlayerFragment.getView();
-        if (mRootView == null)
+
+        if (mRootView == null) {
             throw new IllegalStateException("Fragment's root view is null");
+        }
+
         mExoPlayerView = mRootView.findViewById(R.id.player_view);
+        mPrefs = ExoPreferences.instance(playerFragment.getActivity());
+
         mButtonStates = new HashMap<>();
         mIdTagMapping = new HashMap<>();
-        mPrefs = ExoPreferences.instance(playerFragment.getActivity());
+
         initIdTagMapping();
     }
 
     public void syncButtonStates() {
+        doCleanup();
         initWebButtons();
         initNextButton(); // force enable next button
         initDebugButton();
         initRepeatButton();
         mListenerAdded = true;
+    }
+
+    /**
+     * Cleanup from the previous run values
+     */
+    private void doCleanup() {
+        mButtonStates.clear();
     }
 
     private void initWebButtons() {
@@ -74,7 +85,7 @@ public class PlayerButtonsManager {
                 Integer btnId = entry.getKey();
                 ToggleButtonBase btn = mRootView.findViewById(btnId);
                 // NOTE: if no such state then mark button as disabled
-                btn.disable();
+                btn.disableEvents(); // don't visually disable button, only disable events
                 continue;
             }
 
@@ -101,6 +112,11 @@ public class PlayerButtonsManager {
 
     public void onCheckedChanged(ToggleButtonBase button, boolean isChecked) {
         final int id = button.getId();
+
+        //if (id == R.id.exo_subscribe && !isChecked) {
+        //    Log.d(TAG, "Hmm. Suspicious. Subscribe button has been unchecked. Canceling unsubscribe...");
+        //    return;
+        //}
 
         Log.d(TAG, "Button is checked: " + mIdTagMapping.get(id) + ": " + isChecked);
 

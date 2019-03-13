@@ -2,11 +2,11 @@ package com.liskovsoft.smartyoutubetv.misc;
 
 import android.content.Context;
 import com.liskovsoft.smartyoutubetv.R;
-import com.liskovsoft.smartyoutubetv.common.helpers.MessageHelpers;
-import com.liskovsoft.smartyoutubetv.common.prefs.SmartPreferences;
-import com.liskovsoft.smartyoutubetv.dialogs.GenericSelectorDialog.DialogSourceBase.DialogItem;
-import com.liskovsoft.smartyoutubetv.dialogs.GenericSelectorDialog.SingleDialogSource;
-import com.liskovsoft.smartyoutubetv.dialogs.SingleChoiceSelectorDialog;
+import com.liskovsoft.sharedutils.helpers.MessageHelpers;
+import com.liskovsoft.smartyoutubetv.prefs.SmartPreferences;
+import com.liskovsoft.sharedutils.dialogs.GenericSelectorDialog.DialogSourceBase.DialogItem;
+import com.liskovsoft.sharedutils.dialogs.GenericSelectorDialog.SingleDialogSource;
+import com.liskovsoft.sharedutils.dialogs.SingleChoiceSelectorDialog;
 import com.liskovsoft.smartyoutubetv.injectors.WebViewJavaScriptInterface;
 
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class CodecSelectorAddon {
     }
 
     public void run() {
-        SingleChoiceSelectorDialog.create(mContext, new CodecSelectorDialogSource());
+        SingleChoiceSelectorDialog.create(mContext, new CodecSelectorDialogSource(), R.style.AppDialog);
     }
 
     public String getPreferredCodec() {
